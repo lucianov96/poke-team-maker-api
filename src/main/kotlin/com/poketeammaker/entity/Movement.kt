@@ -1,14 +1,14 @@
 package com.poketeammaker.entity
 
+import javax.persistence.CascadeType.ALL
 import javax.persistence.Entity
 import javax.persistence.Id
-import javax.persistence.ManyToMany
-import javax.persistence.CascadeType.ALL
 import javax.persistence.JoinColumn
 import javax.persistence.JoinTable
+import javax.persistence.ManyToMany
 
 @Entity
-data class Movement (
+data class Movement(
 
     @Id
     var id: Long = 0,
@@ -19,7 +19,7 @@ data class Movement (
     var accuracy: Long? = null,
     var priority: Long = 0,
 
-    @ManyToMany(cascade =  [ALL] )
+    @ManyToMany(cascade = [ALL])
     @JoinTable(
         name = "pokemon_movement",
         joinColumns = [JoinColumn(name = "id_movement")],

@@ -4,7 +4,7 @@ import com.poketeammaker.entity.Pokemon
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
-class PokemonDAOCustomImpl: PokemonDAOCustom {
+class PokemonDAOCustomImpl : PokemonDAOCustom {
 
     @PersistenceContext
     private lateinit var entityManager: EntityManager

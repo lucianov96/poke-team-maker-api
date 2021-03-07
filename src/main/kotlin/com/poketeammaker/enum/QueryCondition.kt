@@ -1,6 +1,6 @@
 package com.poketeammaker.enum
 
-enum class QueryCondition (val dbCondition: String) {
+enum class QueryCondition(val dbCondition: String) {
     LESS_THAN("<"),
     EQUAL("="),
     GREATER_THAN(">");

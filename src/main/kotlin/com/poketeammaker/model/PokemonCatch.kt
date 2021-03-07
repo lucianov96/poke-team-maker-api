@@ -1,9 +1,8 @@
 package com.poketeammaker.model
 
 import com.poketeammaker.entity.PokemonCatchWay
-import com.poketeammaker.model.response.PokemonCatchWayBaseResponse
 
-data class PokemonCatch (
+data class PokemonCatch(
     val pokemonVersion: String,
     val location: String,
     val way: String

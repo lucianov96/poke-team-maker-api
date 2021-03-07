@@ -6,9 +6,8 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface MovementDAO: CrudRepository<Movement, Long> {
+interface MovementDAO : CrudRepository<Movement, Long> {
 
     @Query("SELECT m FROM Movement m INNER JOIN m.pokemons p WHERE p.id = :idPokemon")
     fun findByPokemon(idPokemon: Long): List<Movement>
-
 }

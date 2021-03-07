@@ -3,9 +3,7 @@ package com.poketeammaker.service
 import com.poketeammaker.dao.MovementDAO
 import com.poketeammaker.dao.PokemonCatchWayDAO
 import com.poketeammaker.dao.PokemonDAO
-import com.poketeammaker.entity.Movement
 import com.poketeammaker.entity.Pokemon
-import com.poketeammaker.entity.PokemonCatchWay
 import com.poketeammaker.model.MainPokemon
 import com.poketeammaker.model.PokemonCatch
 import com.poketeammaker.model.PokemonMovement

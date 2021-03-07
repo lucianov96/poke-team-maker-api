@@ -2,8 +2,7 @@ package com.poketeammaker.model
 
 import com.poketeammaker.entity.Movement
 
-
-data class PokemonMovement (
+data class PokemonMovement(
     val name: String,
     val type: String,
     val movementType: String,

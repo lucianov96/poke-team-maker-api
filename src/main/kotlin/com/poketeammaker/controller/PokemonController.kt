@@ -66,61 +66,23 @@ class PokemonController {
         @RequestParam(required = false) spDefense: String?,
         @RequestParam(required = false) spDefenseValue: String?,
         @RequestParam(required = false) speed: String?,
-        @RequestParam(required = false) speedValue: String?,
-
+        @RequestParam(required = false) speedValue: String?
     ): ResponseEntity<PokemonListResponse> {
         val queryParamList = listOf<QueryParam>(
+            QueryParam("ability_1", "=", ability1 ?: ""),
+            QueryParam("ability_2", "=", ability2 ?: ""),
+            QueryParam("type_1", "=", type1 ?: ""),
+            QueryParam("type_2", "=", type2 ?: ""),
+            QueryParam("hp", QueryCondition.queryParamOf(ps ?: ""), psValue ?: ""),
+            QueryParam("attack", QueryCondition.queryParamOf(attack ?: ""), attackValue ?: ""),
+            QueryParam("defense", QueryCondition.queryParamOf(defense ?: ""), defenseValue ?: ""),
+            QueryParam("sp_attack", QueryCondition.queryParamOf(spAttack ?: ""), spAttackValue ?: ""),
+            QueryParam("sp_defense", QueryCondition.queryParamOf(spDefense ?: ""), spDefenseValue ?: ""),
             QueryParam(
-                "ability_1",
-                "=",
-                ability1?:""
-            ),
-            QueryParam(
-                "ability_2",
-                "=",
-                ability2?:""
-            ),
-            QueryParam(
-                "type_1",
-                "=",
-                type1?:""
-            ),
-            QueryParam(
-                "type_2",
-                "=",
-                type2?:""
-            ),
-            QueryParam(
-                "hp",
-                QueryCondition.queryParamOf(ps?:""),
-                psValue?:""
-            ),
-            QueryParam(
-                "attack",
-                QueryCondition.queryParamOf(attack?:""),
-                attackValue?:""
-            ),
-            QueryParam(
-                "defense",
-                QueryCondition.queryParamOf(defense?:""),
-                defenseValue?:""
-            ),
-            QueryParam(
-                "sp_attack",
-                QueryCondition.queryParamOf(spAttack?:""),
-                spAttackValue?:""
-            ),
-            QueryParam(
-                "sp_defense",
-                QueryCondition.queryParamOf(spDefense?:""),
-                spDefenseValue?:""
-            ),
-            QueryParam(
-                "speed",
-                QueryCondition.queryParamOf(speed?:""),
-                speedValue?:""
-            )).filter { it.condition!="" }
-            .filter { it.value!="" }
+                "speed", QueryCondition.queryParamOf(speed ?: ""), speedValue ?: ""
+            )
+        ).filter { it.condition != "" }
+            .filter { it.value != "" }
 
         val pokemonList = pokemonService.getPokemonFilteredList(queryParamList)
         val response = PokemonListResponse.Builder().from(pokemonList).build()

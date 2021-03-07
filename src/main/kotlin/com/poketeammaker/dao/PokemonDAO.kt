@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository
 import java.util.Optional
 
 @Repository
-interface PokemonDAO: CrudRepository<Pokemon, Long>, PokemonDAOCustom {
+interface PokemonDAO : CrudRepository<Pokemon, Long>, PokemonDAOCustom {
     override fun findById(id: Long): Optional<Pokemon>
 }

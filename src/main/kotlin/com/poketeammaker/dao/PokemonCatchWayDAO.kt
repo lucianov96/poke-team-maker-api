@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface PokemonCatchWayDAO: CrudRepository<PokemonCatchWay, Long> {
+interface PokemonCatchWayDAO : CrudRepository<PokemonCatchWay, Long> {
     fun findByIdPokemon(idPokemon: Long): List<PokemonCatchWay>
 }

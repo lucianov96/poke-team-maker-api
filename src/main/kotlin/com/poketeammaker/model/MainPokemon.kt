@@ -6,7 +6,7 @@ data class MainPokemon private constructor(
     val id: Long,
     val name: String
 ) {
-    data class Builder (
+    data class Builder(
         private var id: Long? = null,
         private var name: String? = null
     ) {
