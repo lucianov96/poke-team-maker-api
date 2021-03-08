@@ -11,5 +11,11 @@ enum class QueryCondition(val dbCondition: String) {
                 valueOf(value.toUpperCase()).dbCondition
             } catch (e: Exception) { "?" }
         }
+
+        fun all(): String {
+            return "${LESS_THAN.name.toLowerCase()}, " +
+                "${EQUAL.name.toLowerCase()}, " +
+                "${GREATER_THAN.name.toLowerCase()} "
+        }
     }
 }

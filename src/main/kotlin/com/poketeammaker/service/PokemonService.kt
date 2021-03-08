@@ -4,6 +4,7 @@ import com.poketeammaker.dao.MovementDAO
 import com.poketeammaker.dao.PokemonCatchWayDAO
 import com.poketeammaker.dao.PokemonDAO
 import com.poketeammaker.entity.Pokemon
+import com.poketeammaker.exception.BadRequestException
 import com.poketeammaker.model.MainPokemon
 import com.poketeammaker.model.PokemonCatch
 import com.poketeammaker.model.PokemonMovement
@@ -53,7 +54,7 @@ class PokemonService {
                 MainPokemon.Builder().from(it).build()
             }
         } else {
-            throw Exception("No filters specified to search Pokemons")
+            throw BadRequestException("No filters specified to search Pokemons")
         }
     }
 }

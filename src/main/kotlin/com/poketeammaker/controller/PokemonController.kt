@@ -7,6 +7,7 @@ import com.poketeammaker.model.response.PokemonCatchWayBaseResponse
 import com.poketeammaker.model.response.PokemonListResponse
 import com.poketeammaker.model.response.PokemonMovementBaseResponse
 import com.poketeammaker.service.PokemonService
+import com.poketeammaker.validator.RequestValidator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.ResponseEntity
@@ -20,6 +21,9 @@ class PokemonController {
 
     @Autowired
     private lateinit var pokemonService: PokemonService
+
+    @Autowired
+    private lateinit var requestValidator: RequestValidator
 
     @GetMapping("/pokemon/{id}")
     fun getPokemonById(@PathVariable id: String): ResponseEntity<PokemonBaseResponse> {
@@ -68,6 +72,10 @@ class PokemonController {
         @RequestParam(required = false) speed: String?,
         @RequestParam(required = false) speedValue: String?
     ): ResponseEntity<PokemonListResponse> {
+        requestValidator.validateTypes(type1, type2)
+        requestValidator.validateFilters(ps, attack, defense, spAttack, spDefense, speed)
+        requestValidator.validateFilterValues(psValue, attackValue, defenseValue, spAttackValue, spDefenseValue, speedValue)
+        requestValidator.validateFiltersIntegration(ps, psValue, attack, attackValue, defense, defenseValue, spAttack, spAttackValue, spDefense, spDefenseValue, speed, speedValue)
         val queryParamList = listOf<QueryParam>(
             QueryParam("ability_1", "=", ability1 ?: ""),
             QueryParam("ability_2", "=", ability2 ?: ""),
@@ -78,9 +86,7 @@ class PokemonController {
             QueryParam("defense", QueryCondition.queryParamOf(defense ?: ""), defenseValue ?: ""),
             QueryParam("sp_attack", QueryCondition.queryParamOf(spAttack ?: ""), spAttackValue ?: ""),
             QueryParam("sp_defense", QueryCondition.queryParamOf(spDefense ?: ""), spDefenseValue ?: ""),
-            QueryParam(
-                "speed", QueryCondition.queryParamOf(speed ?: ""), speedValue ?: ""
-            )
+            QueryParam("speed", QueryCondition.queryParamOf(speed ?: ""), speedValue ?: "")
         ).filter { it.condition != "" }
             .filter { it.value != "" }
 
