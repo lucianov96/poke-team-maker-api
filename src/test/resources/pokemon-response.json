@@ -1,0 +1,36 @@
+{
+  "id": 1,
+  "name": "mockmon",
+  "abilities": [
+    "superpokemon"
+  ],
+  "types": [
+    "fighting"
+  ],
+  "stats": [
+    {
+      "name": "PS",
+      "value": 10
+    },
+    {
+      "name": "Attack",
+      "value": 20
+    },
+    {
+      "name": "Defense",
+      "value": 30
+    },
+    {
+      "name": "Sp. Attack",
+      "value": 40
+    },
+    {
+      "name": "Sp. Defense",
+      "value": 50
+    },
+    {
+      "name": "Speed",
+      "value": 60
+    }
+  ]
+}

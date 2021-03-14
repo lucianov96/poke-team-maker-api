@@ -1,0 +1,20 @@
+{
+  "pokemonMovements": [
+    {
+      "name": "razor-wind",
+      "type": "normal",
+      "movementType": "special",
+      "points": 80,
+      "accuracy": 0,
+      "priority": 0
+    },
+    {
+      "name": "razor-wind-2",
+      "type": "normal",
+      "movementType": "special",
+      "points": 70,
+      "accuracy": 0,
+      "priority": 0
+    }
+  ]
+}
