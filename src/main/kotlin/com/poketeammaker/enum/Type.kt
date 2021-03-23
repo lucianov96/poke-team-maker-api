@@ -9,6 +9,8 @@ enum class Type {
     ROCK, STEEL, WATER;
 
     companion object {
+        const val REG_EXP = "(BUG|DARK|DRAGON|ELECTRIC|FAIRY|FIGHTING|FIRE|FLYING|GHOST|GRASS|GROUND|ICE|NORMAL|POISON|PSYCHIC|ROCK|STEEL|WATER)"
+
         fun all(): String {
             return "${BUG.name.toLowerCase()}, " +
                 "${DARK.name.toLowerCase()}, " +
