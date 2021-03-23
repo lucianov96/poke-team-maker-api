@@ -2,6 +2,7 @@ package com.poketeammaker.controller
 
 import com.poketeammaker.enum.QueryCondition
 import com.poketeammaker.model.QueryParam
+import com.poketeammaker.model.request.PokemonFilterRequest
 import com.poketeammaker.model.response.PokemonBaseResponse
 import com.poketeammaker.model.response.PokemonCatchWayBaseResponse
 import com.poketeammaker.model.response.PokemonListResponse
@@ -13,8 +14,8 @@ import org.springframework.http.HttpStatus.OK
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import javax.validation.Valid
 
 @RestController
 class PokemonController {
@@ -54,39 +55,19 @@ class PokemonController {
     }
 
     @GetMapping("/pokemon/list/filter")
-    fun getFilteredlist(
-        @RequestParam(required = false) type1: String?,
-        @RequestParam(required = false) type2: String?,
-        @RequestParam(required = false) ability1: String?,
-        @RequestParam(required = false) ability2: String?,
-        @RequestParam(required = false) ps: String?,
-        @RequestParam(required = false) psValue: String?,
-        @RequestParam(required = false) attack: String?,
-        @RequestParam(required = false) attackValue: String?,
-        @RequestParam(required = false) defense: String?,
-        @RequestParam(required = false) defenseValue: String?,
-        @RequestParam(required = false) spAttack: String?,
-        @RequestParam(required = false) spAttackValue: String?,
-        @RequestParam(required = false) spDefense: String?,
-        @RequestParam(required = false) spDefenseValue: String?,
-        @RequestParam(required = false) speed: String?,
-        @RequestParam(required = false) speedValue: String?
-    ): ResponseEntity<PokemonListResponse> {
-        requestValidator.validateTypes(type1, type2)
-        requestValidator.validateFilters(ps, attack, defense, spAttack, spDefense, speed)
-        requestValidator.validateFilterValues(psValue, attackValue, defenseValue, spAttackValue, spDefenseValue, speedValue)
-        requestValidator.validateFiltersIntegration(ps, psValue, attack, attackValue, defense, defenseValue, spAttack, spAttackValue, spDefense, spDefenseValue, speed, speedValue)
+    fun getFilteredlist(@Valid request: PokemonFilterRequest): ResponseEntity<PokemonListResponse> {
+        requestValidator.validate(request)
         val queryParamList = listOf<QueryParam>(
-            QueryParam("ability_1", "=", ability1 ?: ""),
-            QueryParam("ability_2", "=", ability2 ?: ""),
-            QueryParam("type_1", "=", type1 ?: ""),
-            QueryParam("type_2", "=", type2 ?: ""),
-            QueryParam("hp", QueryCondition.queryParamOf(ps ?: ""), psValue ?: ""),
-            QueryParam("attack", QueryCondition.queryParamOf(attack ?: ""), attackValue ?: ""),
-            QueryParam("defense", QueryCondition.queryParamOf(defense ?: ""), defenseValue ?: ""),
-            QueryParam("sp_attack", QueryCondition.queryParamOf(spAttack ?: ""), spAttackValue ?: ""),
-            QueryParam("sp_defense", QueryCondition.queryParamOf(spDefense ?: ""), spDefenseValue ?: ""),
-            QueryParam("speed", QueryCondition.queryParamOf(speed ?: ""), speedValue ?: "")
+            QueryParam("ability_1", "=", request.ability1 ?: ""),
+            QueryParam("ability_2", "=", request.ability2 ?: ""),
+            QueryParam("type_1", "=", request.type1 ?: ""),
+            QueryParam("type_2", "=", request.type2 ?: ""),
+            QueryParam("hp", QueryCondition.queryParamOf(request.ps ?: ""), request.psValue ?: ""),
+            QueryParam("attack", QueryCondition.queryParamOf(request.attack ?: ""), request.attackValue ?: ""),
+            QueryParam("defense", QueryCondition.queryParamOf(request.defense ?: ""), request.defenseValue ?: ""),
+            QueryParam("sp_attack", QueryCondition.queryParamOf(request.spAttack ?: ""), request.spAttackValue ?: ""),
+            QueryParam("sp_defense", QueryCondition.queryParamOf(request.spDefense ?: ""), request.spDefenseValue ?: ""),
+            QueryParam("speed", QueryCondition.queryParamOf(request.speed ?: ""), request.speedValue ?: "")
         ).filter { it.condition != "" }
             .filter { it.value != "" }
 
