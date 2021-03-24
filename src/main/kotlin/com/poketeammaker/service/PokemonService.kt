@@ -10,20 +10,14 @@ import com.poketeammaker.model.PokemonCatch
 import com.poketeammaker.model.PokemonMovement
 import com.poketeammaker.model.QueryParam
 import com.poketeammaker.utils.buildDynamicQueryCondition
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class PokemonService {
-
-    @Autowired
-    private lateinit var pokemonDAO: PokemonDAO
-
-    @Autowired
-    private lateinit var pokemonCatchWayDAO: PokemonCatchWayDAO
-
-    @Autowired
-    private lateinit var movementDAO: MovementDAO
+class PokemonService(
+    val pokemonDAO: PokemonDAO,
+    val pokemonCatchWayDAO: PokemonCatchWayDAO,
+    val movementDAO: MovementDAO
+) {
 
     fun getPokemonList(): List<MainPokemon> {
         return pokemonDAO.findAll().toList().map {

@@ -4,7 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.poketeammaker.entity.Movement
 import com.poketeammaker.entity.Pokemon
 import com.poketeammaker.entity.PokemonCatchWay
+import com.poketeammaker.enum.QueryCondition
+import com.poketeammaker.enum.QueryCondition.EQUAL
+import com.poketeammaker.enum.Type.ELECTRIC
 import com.poketeammaker.enum.Type.FIGHTING
+import com.poketeammaker.model.QueryParam
+import com.poketeammaker.model.request.PokemonFilterRequest
 import org.springframework.util.StreamUtils
 import java.nio.charset.StandardCharsets
 
@@ -64,3 +69,108 @@ fun createPokemonCatchWay(
     location: String = "",
     way: String = ""
 ) = PokemonCatchWay(id, idPokemon, pokemonVersion, location, way)
+
+fun createCorrectFilterRequest() = createPokemonFilterRequest(
+    FIGHTING.name,
+    ELECTRIC.name,
+    "Inner Focus",
+    "Inner Focus",
+    EQUAL.name,
+    "100",
+    EQUAL.name,
+    "100",
+    EQUAL.name,
+    "100",
+    EQUAL.name,
+    "100",
+    EQUAL.name,
+    "100",
+    EQUAL.name,
+    "100"
+)
+
+fun createPokemonFilterRequest(
+    type1: String? = null,
+    type2: String? = null,
+    ability1: String? = null,
+    ability2: String? = null,
+    ps: String? = null,
+    psValue: String? = null,
+    attack: String? = null,
+    attackValue: String? = null,
+    defense: String? = null,
+    defenseValue: String? = null,
+    spAttack: String? = null,
+    spAttackValue: String? = null,
+    spDefense: String? = null,
+    spDefenseValue: String? = null,
+    speed: String? = null,
+    speedValue: String? = null
+) = PokemonFilterRequest(
+    type1,
+    type2,
+    ability1,
+    ability2,
+    ps,
+    psValue,
+    attack,
+    attackValue,
+    defense,
+    defenseValue,
+    spAttack,
+    spAttackValue,
+    spDefense,
+    spDefenseValue,
+    speed,
+    speedValue
+)
+
+fun createCorrectQueryParamList() = createQueryParamList(
+    FIGHTING.name,
+    ELECTRIC.name,
+    "Inner Focus",
+    "Inner Focus",
+    EQUAL.name,
+    "100",
+    EQUAL.name,
+    "100",
+    EQUAL.name,
+    "100",
+    EQUAL.name,
+    "100",
+    EQUAL.name,
+    "100",
+    EQUAL.name,
+    "100",
+)
+
+fun createQueryParamList(
+    type1: String? = null,
+    type2: String? = null,
+    ability1: String? = null,
+    ability2: String? = null,
+    ps: String? = null,
+    psValue: String? = null,
+    attack: String? = null,
+    attackValue: String? = null,
+    defense: String? = null,
+    defenseValue: String? = null,
+    spAttack: String? = null,
+    spAttackValue: String? = null,
+    spDefense: String? = null,
+    spDefenseValue: String? = null,
+    speed: String? = null,
+    speedValue: String? = null
+) = listOf<QueryParam>(
+    QueryParam("ability_1", "=", ability1 ?: ""),
+    QueryParam("ability_2", "=", ability2 ?: ""),
+    QueryParam("type_1", "=", type1 ?: ""),
+    QueryParam("type_2", "=", type2 ?: ""),
+    QueryParam("hp", QueryCondition.queryParamOf(ps ?: ""), psValue ?: ""),
+    QueryParam("attack", QueryCondition.queryParamOf(attack ?: ""), attackValue ?: ""),
+    QueryParam("defense", QueryCondition.queryParamOf(defense ?: ""), defenseValue ?: ""),
+    QueryParam("sp_attack", QueryCondition.queryParamOf(spAttack ?: ""), spAttackValue ?: ""),
+    QueryParam("sp_defense", QueryCondition.queryParamOf(spDefense ?: ""), spDefenseValue ?: ""),
+    QueryParam("speed", QueryCondition.queryParamOf(speed ?: ""), speedValue ?: "")
+).filter { it.condition != "" }
+    .filter { it.value != "" }

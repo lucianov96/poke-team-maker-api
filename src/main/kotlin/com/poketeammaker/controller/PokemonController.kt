@@ -9,7 +9,6 @@ import com.poketeammaker.model.response.PokemonListResponse
 import com.poketeammaker.model.response.PokemonMovementBaseResponse
 import com.poketeammaker.service.PokemonService
 import com.poketeammaker.validator.RequestValidator
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,13 +17,10 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
-class PokemonController {
-
-    @Autowired
-    private lateinit var pokemonService: PokemonService
-
-    @Autowired
-    private lateinit var requestValidator: RequestValidator
+class PokemonController(
+    val pokemonService: PokemonService,
+    val requestValidator: RequestValidator
+) {
 
     @GetMapping("/pokemon/{id}")
     fun getPokemonById(@PathVariable id: String): ResponseEntity<PokemonBaseResponse> {
