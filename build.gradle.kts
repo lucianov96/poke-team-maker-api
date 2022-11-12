@@ -9,7 +9,6 @@ plugins {
     kotlin("plugin.spring") version "1.6.10"
     kotlin("kapt") version "1.6.10"
     id("jacoco")
-    id("jacoco")
     id("org.sonarqube") version "3.3"
 }
 
