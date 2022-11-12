@@ -4,6 +4,10 @@ import com.poketeammaker.dao.MovementDAO
 import com.poketeammaker.dao.PokemonCatchWayDAO
 import com.poketeammaker.dao.PokemonDAO
 import com.poketeammaker.exception.BadRequestException
+import com.poketeammaker.mapper.MainPokemonMapper
+import com.poketeammaker.mapper.PokemonCatchWayMapper
+import com.poketeammaker.mapper.PokemonMapper
+import com.poketeammaker.mapper.PokemonMovementMapper
 import com.poketeammaker.service.PokemonService
 import com.poketeammaker.utils.POKEMON_ID
 import com.poketeammaker.utils.createCorrectQueryParamList
@@ -11,6 +15,7 @@ import com.poketeammaker.utils.createMovement
 import com.poketeammaker.utils.createPokemon
 import com.poketeammaker.utils.createPokemonCatchWay
 import com.poketeammaker.utils.createQueryParamList
+import com.poketeammaker.utils.title
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -43,8 +48,20 @@ class PokemonServiceTest {
     private val pokemonDAO: PokemonDAO = mockk()
     private val pokemonCatchWayDAO: PokemonCatchWayDAO = mockk()
     private val movementDAO: MovementDAO = mockk()
+    private val mainPokemonMapper = MainPokemonMapper()
+    private val pokemonMapper = PokemonMapper()
+    private val pokemonCatchWayMapper = PokemonCatchWayMapper()
+    private val pokemonMovementMapper = PokemonMovementMapper()
 
-    private val pokemonService = PokemonService(pokemonDAO, pokemonCatchWayDAO, movementDAO)
+    private val pokemonService = PokemonService(
+        pokemonDAO,
+        pokemonCatchWayDAO,
+        movementDAO,
+        mainPokemonMapper,
+        pokemonMapper,
+        pokemonCatchWayMapper,
+        pokemonMovementMapper
+    )
 
     @Test
     fun getPokemonListOk() {
@@ -57,9 +74,9 @@ class PokemonServiceTest {
         // THEN
         verify { pokemonDAO.findAll() }
         assertThat(pokemonList[0].id).isEqualTo(expectedPokemonList[0].id)
-        assertThat(pokemonList[0].name).isEqualTo(expectedPokemonList[0].name)
+        assertThat(pokemonList[0].name).isEqualTo(expectedPokemonList[0].name.title())
         assertThat(pokemonList[1].id).isEqualTo(expectedPokemonList[1].id)
-        assertThat(pokemonList[1].name).isEqualTo(expectedPokemonList[1].name)
+        assertThat(pokemonList[1].name).isEqualTo(expectedPokemonList[1].name.title())
     }
 
     @Test
@@ -72,7 +89,15 @@ class PokemonServiceTest {
 
         // THEN
         verify { pokemonDAO.findById(POKEMON_ID) }
-        assertThat(pokemon).isEqualTo(expectedPokemon)
+        assertThat(pokemon.id).isEqualTo(expectedPokemon.id)
+        assertThat(pokemon.name).isEqualTo(expectedPokemon.name)
+        assertThat(pokemon.types[0]).isEqualTo(expectedPokemon.type_1)
+        assertThat(pokemon.abilities[0]).isEqualTo(expectedPokemon.ability_1)
+        assertThat(pokemon.stats.attack).isEqualTo(expectedPokemon.attack)
+        assertThat(pokemon.stats.defense).isEqualTo(expectedPokemon.defense)
+        assertThat(pokemon.stats.spAttack).isEqualTo(expectedPokemon.spAttack)
+        assertThat(pokemon.stats.spDefense).isEqualTo(expectedPokemon.spDefense)
+        assertThat(pokemon.stats.speed).isEqualTo(expectedPokemon.speed)
     }
 
     @Test
@@ -116,9 +141,9 @@ class PokemonServiceTest {
         // THEN
         verify { pokemonDAO.getPokemonFilteredList(any()) }
         assertThat(pokemonList[0].id).isEqualTo(expectedPokemonList[0].id)
-        assertThat(pokemonList[0].name).isEqualTo(expectedPokemonList[0].name)
+        assertThat(pokemonList[0].name).isEqualTo(expectedPokemonList[0].name.title())
         assertThat(pokemonList[1].id).isEqualTo(expectedPokemonList[1].id)
-        assertThat(pokemonList[1].name).isEqualTo(expectedPokemonList[1].name)
+        assertThat(pokemonList[1].name).isEqualTo(expectedPokemonList[1].name.title())
     }
 
     @Test

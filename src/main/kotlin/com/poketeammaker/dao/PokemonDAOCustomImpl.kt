@@ -1,6 +1,6 @@
 package com.poketeammaker.dao
 
-import com.poketeammaker.entity.Pokemon
+import com.poketeammaker.model.entity.Pokemon
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 

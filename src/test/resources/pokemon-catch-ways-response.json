@@ -1,14 +1,12 @@
-{
-  "pokemonCatchWays": [
-    {
-      "pokemonVersion": "yellow",
-      "location": "cerulean-city-area",
-      "way": "gift"
-    },
-    {
-      "pokemonVersion": "red",
-      "location": "cerulean-city-area",
-      "way": "gift"
-    }
-  ]
-}
+[
+  {
+    "pokemon_version": "yellow",
+    "location": "cerulean-city-area",
+    "way": "gift"
+  },
+  {
+    "pokemon_version": "red",
+    "location": "cerulean-city-area",
+    "way": "gift"
+  }
+]

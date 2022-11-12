@@ -1,12 +1,10 @@
-{
-  "pokemonList": [
-    {
-      "id": 1,
-      "name": "mockmon"
-    },
-    {
-      "id": 2,
-      "name": "mockmon2"
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "name": "Mockmon"
+  },
+  {
+    "id": 2,
+    "name": "Mockmon2"
+  }
+]

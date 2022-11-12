@@ -3,7 +3,7 @@ package com.poketeammaker.integration
 import com.ninjasquad.springmockk.MockkBean
 import com.poketeammaker.dao.MovementDAO
 import com.poketeammaker.enum.Type.NORMAL
-import com.poketeammaker.model.response.PokemonMovementBaseResponse
+import com.poketeammaker.model.dto.PokemonMovementDTO
 import com.poketeammaker.utils.POKEMON_ID
 import com.poketeammaker.utils.TestUtils.Companion.formatJson
 import com.poketeammaker.utils.TestUtils.Companion.getFile
@@ -57,18 +57,18 @@ class MovementIntegrationTest : AbstractIntegrationTest() {
             String::class.java
         )
 
-        val response = objectMapper.readValue(resp.body ?: "{}", PokemonMovementBaseResponse::class.java)
-        val expectedBody = formatJson(objectMapper, movementBody, PokemonMovementBaseResponse::class.java)
+        val response = objectMapper.readValue(resp.body ?: "{}", Array<PokemonMovementDTO>::class.java)
+        val expectedBody = formatJson(objectMapper, movementBody, Array<PokemonMovementDTO>::class.java)
 
         assertThat(resp.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(resp.body).isEqualTo(expectedBody)
-        assertThat(response.pokemonMovements[0].name).isEqualTo("razor-wind")
-        assertThat(response.pokemonMovements[0].type).isEqualTo(NORMAL.name.lowercase())
-        assertThat(response.pokemonMovements[0].movementType).isEqualTo("special")
-        assertThat(response.pokemonMovements[0].points).isEqualTo(80)
-        assertThat(response.pokemonMovements[0].accuracy).isEqualTo(0)
-        assertThat(response.pokemonMovements[0].priority).isEqualTo(0)
-        assertThat(response.pokemonMovements[1].name).isEqualTo("razor-wind-2")
-        assertThat(response.pokemonMovements[1].points).isEqualTo(70)
+        assertThat(response[0].name).isEqualTo("razor-wind")
+        assertThat(response[0].type).isEqualTo(NORMAL.name.lowercase())
+        assertThat(response[0].movementType).isEqualTo("special")
+        assertThat(response[0].points).isEqualTo(80)
+        assertThat(response[0].accuracy).isEqualTo(0)
+        assertThat(response[0].priority).isEqualTo(0)
+        assertThat(response[1].name).isEqualTo("razor-wind-2")
+        assertThat(response[1].points).isEqualTo(70)
     }
 }

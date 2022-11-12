@@ -1,4 +1,4 @@
-package com.poketeammaker.entity
+package com.poketeammaker.model.entity
 
 import javax.persistence.Entity
 import javax.persistence.Id

@@ -7,30 +7,12 @@
   "types": [
     "fighting"
   ],
-  "stats": [
-    {
-      "name": "PS",
-      "value": 10
-    },
-    {
-      "name": "Attack",
-      "value": 20
-    },
-    {
-      "name": "Defense",
-      "value": 30
-    },
-    {
-      "name": "Sp. Attack",
-      "value": 40
-    },
-    {
-      "name": "Sp. Defense",
-      "value": 50
-    },
-    {
-      "name": "Speed",
-      "value": 60
-    }
-  ]
+  "stats": {
+    "ps": 10,
+    "attack": 20,
+    "defense": 30,
+    "sp_attack": 40,
+    "sp_defense": 50,
+    "speed": 60
+  }
 }

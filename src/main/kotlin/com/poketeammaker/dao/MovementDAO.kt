@@ -1,6 +1,6 @@
 package com.poketeammaker.dao
 
-import com.poketeammaker.entity.Movement
+import com.poketeammaker.model.entity.Movement
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository

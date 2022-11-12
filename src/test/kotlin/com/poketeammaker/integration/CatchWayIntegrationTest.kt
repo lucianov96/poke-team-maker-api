@@ -2,7 +2,7 @@ package com.poketeammaker.integration
 
 import com.ninjasquad.springmockk.MockkBean
 import com.poketeammaker.dao.PokemonCatchWayDAO
-import com.poketeammaker.model.response.PokemonCatchWayBaseResponse
+import com.poketeammaker.model.dto.PokemonCatchWayDTO
 import com.poketeammaker.utils.POKEMON_ID
 import com.poketeammaker.utils.TestUtils.Companion.formatJson
 import com.poketeammaker.utils.TestUtils.Companion.getFile
@@ -51,14 +51,14 @@ class CatchWayIntegrationTest : AbstractIntegrationTest() {
             String::class.java
         )
 
-        val response = objectMapper.readValue(resp.body ?: "{}", PokemonCatchWayBaseResponse::class.java)
-        val expectedBody = formatJson(objectMapper, catchWayBody, PokemonCatchWayBaseResponse::class.java)
+        val response = objectMapper.readValue(resp.body ?: "{}", Array<PokemonCatchWayDTO>::class.java)
+        val expectedBody = formatJson(objectMapper, catchWayBody, Array<PokemonCatchWayDTO>::class.java)
 
         assertThat(resp.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(resp.body).isEqualTo(expectedBody)
-        assertThat(response.pokemonCatchWays[0].pokemonVersion).isEqualTo("yellow")
-        assertThat(response.pokemonCatchWays[0].location).isEqualTo("cerulean-city-area")
-        assertThat(response.pokemonCatchWays[0].way).isEqualTo("gift")
-        assertThat(response.pokemonCatchWays[1].pokemonVersion).isEqualTo("red")
+        assertThat(response[0].pokemonVersion).isEqualTo("yellow")
+        assertThat(response[0].location).isEqualTo("cerulean-city-area")
+        assertThat(response[0].way).isEqualTo("gift")
+        assertThat(response[1].pokemonVersion).isEqualTo("red")
     }
 }
