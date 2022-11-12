@@ -19,7 +19,7 @@ class PokemonBaseResponse private constructor(
     ) {
         fun from(pokemon: Pokemon): Builder {
             apply { this.id = pokemon.id }
-            apply { this.name = pokemon.name.capitalize() }
+            apply { this.name = pokemon.name.replaceFirstChar(Char::titlecase) }
             apply { this.abilities = buildAbilities(pokemon) }
             apply { this.types = buildTypes(pokemon) }
             apply { this.stats = buildStats(pokemon) }

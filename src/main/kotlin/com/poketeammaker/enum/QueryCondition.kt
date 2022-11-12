@@ -9,7 +9,7 @@ enum class QueryCondition(val dbCondition: String) {
         const val REG_EXP = "(LESS_THAN|EQUAL|GREATER_THAN)"
         fun queryParamOf(value: String): String {
             return try {
-                valueOf(value.toUpperCase()).dbCondition
+                valueOf(value.uppercase()).dbCondition
             } catch (e: Exception) { "?" }
         }
     }

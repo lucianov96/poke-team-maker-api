@@ -1,0 +1,33 @@
+app:
+  description: ${app.name} is a Spring Boot application
+  base-package: com.poketeammaker
+  name: poketeammaker
+spring:
+  profiles:
+    active: ${ENVIRONMENT:dev}
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${FAMILY_POSTGRES_HOST:localhost}:3306/${MS_NAME:pokemon}
+    username: ${MS_NAME:root}
+    password: ${FAMILY_POSTGRES_PASSWORD:pokemon}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: none
+
+server:
+  error:
+    include-stacktrace: always
+    include-message: always
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    loggers:
+      enabled: true

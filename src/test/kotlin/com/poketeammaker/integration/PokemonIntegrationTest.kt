@@ -42,7 +42,7 @@ class PokemonIntegrationTest : AbstractIntegrationTest() {
         assertThat(response.id).isEqualTo(1)
         assertThat(response.name).isEqualTo("Mockmon")
         assertThat(response.abilities[0]).isEqualTo("superpokemon")
-        assertThat(response.types[0]).isEqualTo(FIGHTING.name.toLowerCase())
+        assertThat(response.types[0]).isEqualTo(FIGHTING.name.lowercase())
         assertThat(response.stats[0].value).isEqualTo(10)
         assertThat(response.stats[1].value).isEqualTo(20)
         assertThat(response.stats[2].value).isEqualTo(30)

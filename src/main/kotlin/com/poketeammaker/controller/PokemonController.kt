@@ -64,8 +64,7 @@ class PokemonController(
             QueryParam("sp_attack", QueryCondition.queryParamOf(request.spAttack ?: ""), request.spAttackValue ?: ""),
             QueryParam("sp_defense", QueryCondition.queryParamOf(request.spDefense ?: ""), request.spDefenseValue ?: ""),
             QueryParam("speed", QueryCondition.queryParamOf(request.speed ?: ""), request.speedValue ?: "")
-        ).filter { it.condition != "" }
-            .filter { it.value != "" }
+        ).filter { it.condition != "" && it.value != "" }
 
         val pokemonList = pokemonService.getPokemonFilteredList(queryParamList)
         val response = PokemonListResponse.Builder().from(pokemonList).build()

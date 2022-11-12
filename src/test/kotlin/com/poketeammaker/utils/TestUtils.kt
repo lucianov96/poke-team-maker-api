@@ -42,7 +42,7 @@ fun createPokemon(
     name: String = "mockmon",
     ability1: String = "superpokemon",
     ability2: String? = null,
-    type1: String = FIGHTING.name.toLowerCase(),
+    type1: String = FIGHTING.name.lowercase(),
     type2: String? = null,
     hp: Long = 0,
     attack: Long = 0,
