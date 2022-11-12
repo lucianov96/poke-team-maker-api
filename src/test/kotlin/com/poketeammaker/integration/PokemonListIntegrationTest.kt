@@ -60,21 +60,21 @@ class PokemonListIntegrationTest : AbstractIntegrationTest() {
 
         every { pokemonDAO.getPokemonFilteredList(any()) } returns pokemonList
 
-        var url: String = buildQueryParam(POKEMON_LIST_FILTERS_ENDPOINT, "type1", ELECTRIC.name.toLowerCase(), true)
-        url = buildQueryParam(url, "type2", FIRE.name.toLowerCase(), false)
+        var url: String = buildQueryParam(POKEMON_LIST_FILTERS_ENDPOINT, "type1", ELECTRIC.name.lowercase(), true)
+        url = buildQueryParam(url, "type2", FIRE.name.lowercase(), false)
         url = buildQueryParam(url, "ability1", "fake-ability", false)
         url = buildQueryParam(url, "ability2", "fake-ability-2", false)
-        url = buildQueryParam(url, "ps", EQUAL.name.toLowerCase(), false)
+        url = buildQueryParam(url, "ps", EQUAL.name.lowercase(), false)
         url = buildQueryParam(url, "psValue", "100", false)
-        url = buildQueryParam(url, "attack", GREATER_THAN.name.toLowerCase(), false)
+        url = buildQueryParam(url, "attack", GREATER_THAN.name.lowercase(), false)
         url = buildQueryParam(url, "attackValue", "100", false)
-        url = buildQueryParam(url, "defense", LESS_THAN.name.toLowerCase(), false)
+        url = buildQueryParam(url, "defense", LESS_THAN.name.lowercase(), false)
         url = buildQueryParam(url, "defenseValue", "100", false)
-        url = buildQueryParam(url, "spAttack", LESS_THAN.name.toLowerCase(), false)
+        url = buildQueryParam(url, "spAttack", LESS_THAN.name.lowercase(), false)
         url = buildQueryParam(url, "spAttackValue", "100", false)
-        url = buildQueryParam(url, "spDefense", LESS_THAN.name.toLowerCase(), false)
+        url = buildQueryParam(url, "spDefense", LESS_THAN.name.lowercase(), false)
         url = buildQueryParam(url, "spDefenseValue", "100", false)
-        url = buildQueryParam(url, "speed", LESS_THAN.name.toLowerCase(), false)
+        url = buildQueryParam(url, "speed", LESS_THAN.name.lowercase(), false)
         url = buildQueryParam(url, "speedValue", "100", false)
 
         val resp: ResponseEntity<String> = restTemplate.exchange(
@@ -168,7 +168,7 @@ class PokemonListIntegrationTest : AbstractIntegrationTest() {
 
         every { pokemonDAO.getPokemonFilteredList(any()) } returns pokemonList
 
-        val url = buildQueryParam(POKEMON_LIST_FILTERS_ENDPOINT, "ps", EQUAL.name.toLowerCase(), true)
+        val url = buildQueryParam(POKEMON_LIST_FILTERS_ENDPOINT, "ps", EQUAL.name.lowercase(), true)
 
         val resp: ResponseEntity<String> = restTemplate.exchange(
             url,

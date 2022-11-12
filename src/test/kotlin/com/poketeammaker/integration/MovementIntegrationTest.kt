@@ -63,7 +63,7 @@ class MovementIntegrationTest : AbstractIntegrationTest() {
         assertThat(resp.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(resp.body).isEqualTo(expectedBody)
         assertThat(response.pokemonMovements[0].name).isEqualTo("razor-wind")
-        assertThat(response.pokemonMovements[0].type).isEqualTo(NORMAL.name.toLowerCase())
+        assertThat(response.pokemonMovements[0].type).isEqualTo(NORMAL.name.lowercase())
         assertThat(response.pokemonMovements[0].movementType).isEqualTo("special")
         assertThat(response.pokemonMovements[0].points).isEqualTo(80)
         assertThat(response.pokemonMovements[0].accuracy).isEqualTo(0)
