@@ -161,7 +161,7 @@ fun createQueryParamList(
     spDefenseValue: String? = null,
     speed: String? = null,
     speedValue: String? = null
-) = listOf<QueryParam>(
+) = listOf(
     QueryParam("ability_1", "=", ability1 ?: ""),
     QueryParam("ability_2", "=", ability2 ?: ""),
     QueryParam("type_1", "=", type1 ?: ""),

@@ -7,6 +7,8 @@ import com.poketeammaker.model.dto.PokemonCatchWayDTO
 import com.poketeammaker.model.request.PokemonFilterRequest
 import com.poketeammaker.model.dto.PokemonDTO
 import com.poketeammaker.model.dto.PokemonMovementDTO
+import com.poketeammaker.service.MovementService
+import com.poketeammaker.service.PokemonCatchWayService
 import com.poketeammaker.service.PokemonService
 import com.poketeammaker.validator.RequestValidator
 import org.springframework.http.HttpStatus.OK
@@ -19,6 +21,8 @@ import javax.validation.Valid
 @RestController
 class PokemonController(
     val pokemonService: PokemonService,
+    val movementService: MovementService,
+    val pokemonCatchWayService: PokemonCatchWayService,
     val requestValidator: RequestValidator
 ) {
 
@@ -30,24 +34,18 @@ class PokemonController(
 
     @GetMapping("/pokemon/{id}/movements")
     fun getPokemonMovementsById(@PathVariable id: String): ResponseEntity<List<PokemonMovementDTO>> {
-        val pokemonMovements = pokemonService.getPokemonMovements(id.toLong())
+        val pokemonMovements = movementService.getPokemonMovements(id.toLong())
         return ResponseEntity(pokemonMovements, OK)
     }
 
     @GetMapping("/pokemon/{id}/catch")
     fun getPokemonCatchWaysById(@PathVariable id: String): ResponseEntity<List<PokemonCatchWayDTO>> {
-        val pokemonCatchWays = pokemonService.getPokemonCatchWays(id.toLong())
+        val pokemonCatchWays = pokemonCatchWayService.getPokemonCatchWays(id.toLong())
         return ResponseEntity(pokemonCatchWays, OK)
     }
 
-    @GetMapping("/pokemon/list")
-    fun list(): ResponseEntity<List<MainPokemonDTO>> {
-        val pokemonList = pokemonService.getPokemonList()
-        return ResponseEntity(pokemonList, OK)
-    }
-
-    @GetMapping("/pokemon/list/filter")
-    fun getFilteredlist(@Valid request: PokemonFilterRequest): ResponseEntity<List<MainPokemonDTO>> {
+    @GetMapping("/pokemon")
+    fun getList(@Valid request: PokemonFilterRequest): ResponseEntity<List<MainPokemonDTO>> {
         requestValidator.validate(request)
         val queryParamList = listOf<QueryParam>(
             QueryParam("ability_1", "=", request.ability1 ?: ""),
@@ -62,7 +60,7 @@ class PokemonController(
             QueryParam("speed", QueryCondition.queryParamOf(request.speed ?: ""), request.speedValue ?: "")
         ).filter { it.condition != "" && it.value != "" }
 
-        val pokemonList = pokemonService.getPokemonFilteredList(queryParamList)
+        val pokemonList = pokemonService.getPokemonList(queryParamList)
         return ResponseEntity(pokemonList, OK)
     }
 }

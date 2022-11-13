@@ -21,8 +21,8 @@ import org.springframework.http.ResponseEntity
 class PokemonListIntegrationTest : AbstractIntegrationTest() {
 
     companion object {
-        private const val POKEMON_LIST_ENDPOINT = "/pokemon/list"
-        private const val POKEMON_LIST_FILTERS_ENDPOINT = "/pokemon/list/filter?"
+        private const val POKEMON_LIST_ENDPOINT = "/pokemon"
+        private const val POKEMON_LIST_FILTERS_ENDPOINT = "/pokemon?"
     }
 
     private val pokemonList = mutableListOf(
