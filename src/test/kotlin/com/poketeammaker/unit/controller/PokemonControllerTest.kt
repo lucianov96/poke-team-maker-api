@@ -7,6 +7,8 @@ import com.poketeammaker.mapper.MainPokemonMapper
 import com.poketeammaker.mapper.PokemonCatchWayMapper
 import com.poketeammaker.mapper.PokemonMapper
 import com.poketeammaker.mapper.PokemonMovementMapper
+import com.poketeammaker.service.MovementService
+import com.poketeammaker.service.PokemonCatchWayService
 import com.poketeammaker.service.PokemonService
 import com.poketeammaker.utils.POKEMON_ID
 import com.poketeammaker.utils.createCorrectFilterRequest
@@ -15,6 +17,7 @@ import com.poketeammaker.utils.createMovement
 import com.poketeammaker.utils.createPokemon
 import com.poketeammaker.utils.createPokemonCatchWay
 import com.poketeammaker.utils.createPokemonFilterRequest
+import com.poketeammaker.utils.createQueryParamList
 import com.poketeammaker.validator.RequestValidator
 import io.mockk.MockKException
 import io.mockk.every
@@ -26,13 +29,20 @@ import org.junit.jupiter.api.assertThrows
 
 class PokemonControllerTest {
     private val pokemonService: PokemonService = mockk()
+    private val movementService: MovementService = mockk()
+    private val pokemonCatchWayService: PokemonCatchWayService = mockk()
     private val requestValidator = RequestValidator()
     private val mainPokemonMapper = MainPokemonMapper()
     private val pokemonCatchWayMapper = PokemonCatchWayMapper()
     private val pokemonMapper = PokemonMapper()
     private val pokemonMovementMapper = PokemonMovementMapper()
 
-    private val pokemonController = PokemonController(pokemonService, requestValidator)
+    private val pokemonController = PokemonController(
+        pokemonService,
+        movementService,
+        pokemonCatchWayService,
+        requestValidator
+    )
 
     private val expectedPokemon = pokemonMapper.toDTO(
         createPokemon(name = "Dragonite")
@@ -58,12 +68,14 @@ class PokemonControllerTest {
     ).map {
         pokemonCatchWayMapper.toDTO(it)
     }
+    private val emptyPokemonFilterRequest = createPokemonFilterRequest()
     private val pokemonFilterRequest = createCorrectFilterRequest()
     private val pokemonFilterBadTypeRequest = createPokemonFilterRequest(type1 = "asd")
     private val pokemonFilterBadConditionRequest = createPokemonFilterRequest(ps = "asd")
     private val pokemonFilterBadConditionWithoutValueRequest = createPokemonFilterRequest(ps = EQUAL.name)
     private val pokemonFilterBadValueWithoutConditionRequest = createPokemonFilterRequest(psValue = "100")
     private val queryParamList = createCorrectQueryParamList()
+    private val emptyQueryParamList = createQueryParamList()
 
     @Test
     fun getPokemonByIdOk() {
@@ -81,13 +93,13 @@ class PokemonControllerTest {
     @Test
     fun getPokemonMovementsByIdOk() {
         // GIVEN
-        every { pokemonService.getPokemonMovements(POKEMON_ID) } returns expectedMovements
+        every { movementService.getPokemonMovements(POKEMON_ID) } returns expectedMovements
 
         // WHEN
         val movements = pokemonController.getPokemonMovementsById(POKEMON_ID.toString())
 
         // THEN
-        verify { pokemonService.getPokemonMovements(POKEMON_ID) }
+        verify { movementService.getPokemonMovements(POKEMON_ID) }
         assertThat(movements.body?.get(0)?.name).isEqualTo(expectedMovements[0].name)
         assertThat(movements.body?.get(1)?.name).isEqualTo(expectedMovements[1].name)
     }
@@ -95,13 +107,13 @@ class PokemonControllerTest {
     @Test
     fun getPokemonCatchWaysByIdOk() {
         // GIVEN
-        every { pokemonService.getPokemonCatchWays(POKEMON_ID) } returns expectedCatchWays
+        every { pokemonCatchWayService.getPokemonCatchWays(POKEMON_ID) } returns expectedCatchWays
 
         // WHEN
         val catchWays = pokemonController.getPokemonCatchWaysById(POKEMON_ID.toString())
 
         // THEN
-        verify { pokemonService.getPokemonCatchWays(POKEMON_ID) }
+        verify { pokemonCatchWayService.getPokemonCatchWays(POKEMON_ID) }
         assertThat(catchWays.body?.get(0)?.way).isEqualTo(expectedCatchWays[0].way)
         assertThat(catchWays.body?.get(1)?.way).isEqualTo(expectedCatchWays[1].way)
     }
@@ -109,50 +121,50 @@ class PokemonControllerTest {
     @Test
     fun getPokemonListOk() {
         // GIVEN
-        every { pokemonService.getPokemonList() } returns expectedPokemons
+        every { pokemonService.getPokemonList(emptyQueryParamList) } returns expectedPokemons
 
         // WHEN
-        val pokemons = pokemonController.list()
+        val pokemons = pokemonController.getList(emptyPokemonFilterRequest)
 
         // THEN
-        verify { pokemonService.getPokemonList() }
+        verify { pokemonService.getPokemonList(emptyQueryParamList) }
         assertThat(pokemons.body?.get(0)?.name).isEqualTo(expectedPokemons[0].name)
     }
 
     @Test
     fun getPokemonFilteredListOk() {
         // GIVEN
-        every { pokemonService.getPokemonFilteredList(queryParamList) } returns expectedPokemons
+        every { pokemonService.getPokemonList(queryParamList) } returns expectedPokemons
 
         // WHEN
-        val pokemons = pokemonController.getFilteredlist(pokemonFilterRequest)
+        val pokemons = pokemonController.getList(pokemonFilterRequest)
 
         // THEN
-        verify { pokemonService.getPokemonFilteredList(queryParamList) }
+        verify { pokemonService.getPokemonList(queryParamList) }
         assertThat(pokemons.body?.get(0)?.name).isEqualTo(expectedPokemons[0].name)
     }
 
     @Test
     fun getPokemonFilteredListBadType() {
         // WHEN - THEN
-        assertThrows<MockKException> { pokemonController.getFilteredlist(pokemonFilterBadTypeRequest) }
+        assertThrows<MockKException> { pokemonController.getList(pokemonFilterBadTypeRequest) }
     }
 
     @Test
     fun getPokemonFilteredListBadCondition() {
         // WHEN - THEN
-        assertThrows<BadRequestException> { pokemonController.getFilteredlist(pokemonFilterBadConditionRequest) }
+        assertThrows<BadRequestException> { pokemonController.getList(pokemonFilterBadConditionRequest) }
     }
 
     @Test
     fun getPokemonFilteredListConditionWithoutValue() {
         // WHEN - THEN
-        assertThrows<BadRequestException> { pokemonController.getFilteredlist(pokemonFilterBadConditionWithoutValueRequest) }
+        assertThrows<BadRequestException> { pokemonController.getList(pokemonFilterBadConditionWithoutValueRequest) }
     }
 
     @Test
     fun getPokemonFilteredListValueWithoutCondition() {
         // WHEN - THEN
-        assertThrows<BadRequestException> { pokemonController.getFilteredlist(pokemonFilterBadValueWithoutConditionRequest) }
+        assertThrows<BadRequestException> { pokemonController.getList(pokemonFilterBadValueWithoutConditionRequest) }
     }
 }
