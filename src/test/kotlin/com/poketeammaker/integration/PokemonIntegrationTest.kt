@@ -5,6 +5,7 @@ import com.poketeammaker.model.dto.PokemonDTO
 import com.poketeammaker.utils.POKEMON_ID
 import com.poketeammaker.utils.TestUtils.Companion.formatJson
 import com.poketeammaker.utils.TestUtils.Companion.getFile
+import com.poketeammaker.utils.title
 import io.mockk.every
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -40,7 +41,7 @@ class PokemonIntegrationTest : AbstractIntegrationTest() {
         assertThat(resp.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(resp.body?.replace("mockmon", "Mockmon")).isEqualTo(expectedBody)
         assertThat(response.id).isEqualTo(1)
-        assertThat(response.name).isEqualTo("mockmon")
+        assertThat(response.name).isEqualTo("Mockmon")
         assertThat(response.abilities[0]).isEqualTo("superpokemon")
         assertThat(response.types[0]).isEqualTo(FIGHTING.name.lowercase())
         assertThat(response.stats.ps).isEqualTo(10)

@@ -90,7 +90,7 @@ class PokemonServiceTest {
         // THEN
         verify { pokemonDAO.findById(POKEMON_ID) }
         assertThat(pokemon.id).isEqualTo(expectedPokemon.id)
-        assertThat(pokemon.name).isEqualTo(expectedPokemon.name)
+        assertThat(pokemon.name).isEqualTo(expectedPokemon.name.title())
         assertThat(pokemon.types[0]).isEqualTo(expectedPokemon.type_1)
         assertThat(pokemon.abilities[0]).isEqualTo(expectedPokemon.ability_1)
         assertThat(pokemon.stats.attack).isEqualTo(expectedPokemon.attack)
