@@ -1,9 +1,9 @@
 package com.poketeammaker.utils
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.poketeammaker.entity.Movement
-import com.poketeammaker.entity.Pokemon
-import com.poketeammaker.entity.PokemonCatchWay
+import com.poketeammaker.model.entity.Movement
+import com.poketeammaker.model.entity.Pokemon
+import com.poketeammaker.model.entity.PokemonCatchWay
 import com.poketeammaker.enum.QueryCondition
 import com.poketeammaker.enum.QueryCondition.EQUAL
 import com.poketeammaker.enum.Type.ELECTRIC
@@ -172,5 +172,6 @@ fun createQueryParamList(
     QueryParam("sp_attack", QueryCondition.queryParamOf(spAttack ?: ""), spAttackValue ?: ""),
     QueryParam("sp_defense", QueryCondition.queryParamOf(spDefense ?: ""), spDefenseValue ?: ""),
     QueryParam("speed", QueryCondition.queryParamOf(speed ?: ""), speedValue ?: "")
-).filter { it.condition != "" }
-    .filter { it.value != "" }
+).filter { it.condition != "" && it.value != ""}
+
+fun String.title() = this.replaceFirstChar(Char::titlecase)

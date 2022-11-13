@@ -5,7 +5,7 @@ import com.poketeammaker.enum.QueryCondition.GREATER_THAN
 import com.poketeammaker.enum.QueryCondition.LESS_THAN
 import com.poketeammaker.enum.Type.ELECTRIC
 import com.poketeammaker.enum.Type.FIRE
-import com.poketeammaker.model.response.PokemonListResponse
+import com.poketeammaker.model.dto.MainPokemonDTO
 import com.poketeammaker.utils.TestUtils.Companion.formatJson
 import com.poketeammaker.utils.TestUtils.Companion.getFile
 import com.poketeammaker.utils.buildQueryParam
@@ -44,15 +44,15 @@ class PokemonListIntegrationTest : AbstractIntegrationTest() {
             String::class.java
         )
 
-        val response = objectMapper.readValue(resp.body ?: "{}", PokemonListResponse::class.java)
-        val expectedBody = formatJson(objectMapper, pokemonListBody, PokemonListResponse::class.java)
+        val response = objectMapper.readValue(resp.body ?: "{}", Array<MainPokemonDTO>::class.java)
+        val expectedBody = formatJson(objectMapper, pokemonListBody, Array<MainPokemonDTO>::class.java)
 
         assertThat(resp.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(resp.body).isEqualTo(expectedBody)
-        assertThat(response.pokemonList[0].id).isEqualTo(1)
-        assertThat(response.pokemonList[1].id).isEqualTo(2)
-        assertThat(response.pokemonList[0].name).isEqualTo("mockmon")
-        assertThat(response.pokemonList[1].name).isEqualTo("mockmon2")
+        assertThat(response[0].id).isEqualTo(1)
+        assertThat(response[1].id).isEqualTo(2)
+        assertThat(response[0].name).isEqualTo("Mockmon")
+        assertThat(response[1].name).isEqualTo("Mockmon2")
     }
 
     @Test
@@ -84,15 +84,15 @@ class PokemonListIntegrationTest : AbstractIntegrationTest() {
             String::class.java
         )
 
-        val response = objectMapper.readValue(resp.body ?: "{}", PokemonListResponse::class.java)
-        val expectedBody = formatJson(objectMapper, pokemonListBody, PokemonListResponse::class.java)
+        val response = objectMapper.readValue(resp.body ?: "{}", Array<MainPokemonDTO>::class.java)
+        val expectedBody = formatJson(objectMapper, pokemonListBody, Array<MainPokemonDTO>::class.java)
 
         assertThat(resp.statusCode).isEqualTo(HttpStatus.OK)
         assertThat(resp.body).isEqualTo(expectedBody)
-        assertThat(response.pokemonList[0].id).isEqualTo(1)
-        assertThat(response.pokemonList[1].id).isEqualTo(2)
-        assertThat(response.pokemonList[0].name).isEqualTo("mockmon")
-        assertThat(response.pokemonList[1].name).isEqualTo("mockmon2")
+        assertThat(response[0].id).isEqualTo(1)
+        assertThat(response[1].id).isEqualTo(2)
+        assertThat(response[0].name).isEqualTo("Mockmon")
+        assertThat(response[1].name).isEqualTo("Mockmon2")
     }
 
     @Test

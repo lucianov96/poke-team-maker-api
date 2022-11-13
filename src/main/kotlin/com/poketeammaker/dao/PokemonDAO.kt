@@ -1,6 +1,6 @@
 package com.poketeammaker.dao
 
-import com.poketeammaker.entity.Pokemon
+import com.poketeammaker.model.entity.Pokemon
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 import java.util.Optional

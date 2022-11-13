@@ -3,9 +3,10 @@ package com.poketeammaker.unit.controller
 import com.poketeammaker.controller.PokemonController
 import com.poketeammaker.enum.QueryCondition.EQUAL
 import com.poketeammaker.exception.BadRequestException
-import com.poketeammaker.model.MainPokemon
-import com.poketeammaker.model.PokemonCatch
-import com.poketeammaker.model.PokemonMovement
+import com.poketeammaker.mapper.MainPokemonMapper
+import com.poketeammaker.mapper.PokemonCatchWayMapper
+import com.poketeammaker.mapper.PokemonMapper
+import com.poketeammaker.mapper.PokemonMovementMapper
 import com.poketeammaker.service.PokemonService
 import com.poketeammaker.utils.POKEMON_ID
 import com.poketeammaker.utils.createCorrectFilterRequest
@@ -26,26 +27,36 @@ import org.junit.jupiter.api.assertThrows
 class PokemonControllerTest {
     private val pokemonService: PokemonService = mockk()
     private val requestValidator = RequestValidator()
+    private val mainPokemonMapper = MainPokemonMapper()
+    private val pokemonCatchWayMapper = PokemonCatchWayMapper()
+    private val pokemonMapper = PokemonMapper()
+    private val pokemonMovementMapper = PokemonMovementMapper()
 
     private val pokemonController = PokemonController(pokemonService, requestValidator)
 
-    private val expectedPokemon = createPokemon(name = "Dragonite")
+    private val expectedPokemon = pokemonMapper.toDTO(
+        createPokemon(name = "Dragonite")
+    )
+
+    private val expectedMainPokemon = mainPokemonMapper.toDTO(
+        createPokemon(name = "Dragonite")
+    )
+
     private val expectedPokemons = listOf(
-        expectedPokemon
-    ).map {
-        MainPokemon.Builder().from(it).build()
-    }
+        expectedMainPokemon
+    )
+
     private val expectedMovements = listOf(
         createMovement(name = "razor-wind"),
         createMovement(name = "razor-wind-2")
     ).map {
-        PokemonMovement.Builder().from(it).build()
+        pokemonMovementMapper.toDTO(it)
     }
     private val expectedCatchWays = listOf(
         createPokemonCatchWay(way = "gift"),
         createPokemonCatchWay(way = "walk")
     ).map {
-        PokemonCatch.Builder().from(it).build()
+        pokemonCatchWayMapper.toDTO(it)
     }
     private val pokemonFilterRequest = createCorrectFilterRequest()
     private val pokemonFilterBadTypeRequest = createPokemonFilterRequest(type1 = "asd")
@@ -77,8 +88,8 @@ class PokemonControllerTest {
 
         // THEN
         verify { pokemonService.getPokemonMovements(POKEMON_ID) }
-        assertThat(movements.body?.pokemonMovements?.get(0)?.name).isEqualTo(expectedMovements[0].name)
-        assertThat(movements.body?.pokemonMovements?.get(1)?.name).isEqualTo(expectedMovements[1].name)
+        assertThat(movements.body?.get(0)?.name).isEqualTo(expectedMovements[0].name)
+        assertThat(movements.body?.get(1)?.name).isEqualTo(expectedMovements[1].name)
     }
 
     @Test
@@ -91,8 +102,8 @@ class PokemonControllerTest {
 
         // THEN
         verify { pokemonService.getPokemonCatchWays(POKEMON_ID) }
-        assertThat(catchWays.body?.pokemonCatchWays?.get(0)?.way).isEqualTo(expectedCatchWays[0].way)
-        assertThat(catchWays.body?.pokemonCatchWays?.get(1)?.way).isEqualTo(expectedCatchWays[1].way)
+        assertThat(catchWays.body?.get(0)?.way).isEqualTo(expectedCatchWays[0].way)
+        assertThat(catchWays.body?.get(1)?.way).isEqualTo(expectedCatchWays[1].way)
     }
 
     @Test
@@ -105,7 +116,7 @@ class PokemonControllerTest {
 
         // THEN
         verify { pokemonService.getPokemonList() }
-        assertThat(pokemons.body?.pokemonList?.get(0)?.name).isEqualTo(expectedPokemons[0].name)
+        assertThat(pokemons.body?.get(0)?.name).isEqualTo(expectedPokemons[0].name)
     }
 
     @Test
@@ -118,7 +129,7 @@ class PokemonControllerTest {
 
         // THEN
         verify { pokemonService.getPokemonFilteredList(queryParamList) }
-        assertThat(pokemons.body?.pokemonList?.get(0)?.name).isEqualTo(expectedPokemons[0].name)
+        assertThat(pokemons.body?.get(0)?.name).isEqualTo(expectedPokemons[0].name)
     }
 
     @Test

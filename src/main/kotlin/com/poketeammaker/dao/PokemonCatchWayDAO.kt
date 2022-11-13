@@ -1,6 +1,6 @@
 package com.poketeammaker.dao
 
-import com.poketeammaker.entity.PokemonCatchWay
+import com.poketeammaker.model.entity.PokemonCatchWay
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 

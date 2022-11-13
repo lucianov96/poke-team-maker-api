@@ -28,9 +28,4 @@ abstract class AbstractIntegrationTest {
         spDefense = 50,
         speed = 60
     )
-
-    private val pokemonList = mutableListOf(
-        pokemon,
-        createPokemon(2, "mockmon2")
-    )
 }

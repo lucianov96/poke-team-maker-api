@@ -2,11 +2,11 @@ package com.poketeammaker.controller
 
 import com.poketeammaker.enum.QueryCondition
 import com.poketeammaker.model.QueryParam
+import com.poketeammaker.model.dto.MainPokemonDTO
+import com.poketeammaker.model.dto.PokemonCatchWayDTO
 import com.poketeammaker.model.request.PokemonFilterRequest
-import com.poketeammaker.model.response.PokemonBaseResponse
-import com.poketeammaker.model.response.PokemonCatchWayBaseResponse
-import com.poketeammaker.model.response.PokemonListResponse
-import com.poketeammaker.model.response.PokemonMovementBaseResponse
+import com.poketeammaker.model.dto.PokemonDTO
+import com.poketeammaker.model.dto.PokemonMovementDTO
 import com.poketeammaker.service.PokemonService
 import com.poketeammaker.validator.RequestValidator
 import org.springframework.http.HttpStatus.OK
@@ -23,35 +23,31 @@ class PokemonController(
 ) {
 
     @GetMapping("/pokemon/{id}")
-    fun getPokemonById(@PathVariable id: String): ResponseEntity<PokemonBaseResponse> {
+    fun getPokemonById(@PathVariable id: String): ResponseEntity<PokemonDTO> {
         val pokemon = pokemonService.getPokemon(id.toLong())
-        val response = PokemonBaseResponse.Builder().from(pokemon).build()
-        return ResponseEntity(response, OK)
+        return ResponseEntity(pokemon, OK)
     }
 
     @GetMapping("/pokemon/{id}/movements")
-    fun getPokemonMovementsById(@PathVariable id: String): ResponseEntity<PokemonMovementBaseResponse> {
+    fun getPokemonMovementsById(@PathVariable id: String): ResponseEntity<List<PokemonMovementDTO>> {
         val pokemonMovements = pokemonService.getPokemonMovements(id.toLong())
-        val response = PokemonMovementBaseResponse.Builder().from(pokemonMovements).build()
-        return ResponseEntity(response, OK)
+        return ResponseEntity(pokemonMovements, OK)
     }
 
     @GetMapping("/pokemon/{id}/catch")
-    fun getPokemonCatchWaysById(@PathVariable id: String): ResponseEntity<PokemonCatchWayBaseResponse> {
+    fun getPokemonCatchWaysById(@PathVariable id: String): ResponseEntity<List<PokemonCatchWayDTO>> {
         val pokemonCatchWays = pokemonService.getPokemonCatchWays(id.toLong())
-        val response = PokemonCatchWayBaseResponse.Builder().from(pokemonCatchWays).build()
-        return ResponseEntity(response, OK)
+        return ResponseEntity(pokemonCatchWays, OK)
     }
 
     @GetMapping("/pokemon/list")
-    fun list(): ResponseEntity<PokemonListResponse> {
+    fun list(): ResponseEntity<List<MainPokemonDTO>> {
         val pokemonList = pokemonService.getPokemonList()
-        val response = PokemonListResponse.Builder().from(pokemonList).build()
-        return ResponseEntity(response, OK)
+        return ResponseEntity(pokemonList, OK)
     }
 
     @GetMapping("/pokemon/list/filter")
-    fun getFilteredlist(@Valid request: PokemonFilterRequest): ResponseEntity<PokemonListResponse> {
+    fun getFilteredlist(@Valid request: PokemonFilterRequest): ResponseEntity<List<MainPokemonDTO>> {
         requestValidator.validate(request)
         val queryParamList = listOf<QueryParam>(
             QueryParam("ability_1", "=", request.ability1 ?: ""),
@@ -67,7 +63,6 @@ class PokemonController(
         ).filter { it.condition != "" && it.value != "" }
 
         val pokemonList = pokemonService.getPokemonFilteredList(queryParamList)
-        val response = PokemonListResponse.Builder().from(pokemonList).build()
-        return ResponseEntity(response, OK)
+        return ResponseEntity(pokemonList, OK)
     }
 }
