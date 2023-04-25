@@ -71,6 +71,7 @@ fun createPokemonCatchWay(
 ) = PokemonCatchWay(id, idPokemon, pokemonVersion, location, way)
 
 fun createCorrectFilterRequest() = createPokemonFilterRequest(
+    "Dragonite",
     FIGHTING.name,
     ELECTRIC.name,
     "Inner Focus",
@@ -90,6 +91,7 @@ fun createCorrectFilterRequest() = createPokemonFilterRequest(
 )
 
 fun createPokemonFilterRequest(
+    name: String? = null,
     type1: String? = null,
     type2: String? = null,
     ability1: String? = null,
@@ -107,6 +109,7 @@ fun createPokemonFilterRequest(
     speed: String? = null,
     speedValue: String? = null
 ) = PokemonFilterRequest(
+    name,
     type1,
     type2,
     ability1,
@@ -126,6 +129,7 @@ fun createPokemonFilterRequest(
 )
 
 fun createCorrectQueryParamList() = createQueryParamList(
+    "Dragonite",
     FIGHTING.name,
     ELECTRIC.name,
     "Inner Focus",
@@ -145,6 +149,7 @@ fun createCorrectQueryParamList() = createQueryParamList(
 )
 
 fun createQueryParamList(
+    name: String? = null,
     type1: String? = null,
     type2: String? = null,
     ability1: String? = null,
@@ -162,6 +167,7 @@ fun createQueryParamList(
     speed: String? = null,
     speedValue: String? = null
 ) = listOf(
+    QueryParam("name", "=", name ?: ""),
     QueryParam("ability_1", "=", ability1 ?: ""),
     QueryParam("ability_2", "=", ability2 ?: ""),
     QueryParam("type_1", "=", type1 ?: ""),

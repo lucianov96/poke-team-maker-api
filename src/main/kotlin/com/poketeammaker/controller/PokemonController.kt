@@ -13,12 +13,14 @@ import com.poketeammaker.service.PokemonService
 import com.poketeammaker.validator.RequestValidator
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
+@CrossOrigin(origins = ["*"])
 class PokemonController(
     val pokemonService: PokemonService,
     val movementService: MovementService,
@@ -48,6 +50,7 @@ class PokemonController(
     fun getList(@Valid request: PokemonFilterRequest): ResponseEntity<List<MainPokemonDTO>> {
         requestValidator.validate(request)
         val queryParamList = listOf<QueryParam>(
+            QueryParam("name", "=", request.name ?: ""),
             QueryParam("ability_1", "=", request.ability1 ?: ""),
             QueryParam("ability_2", "=", request.ability2 ?: ""),
             QueryParam("type_1", "=", request.type1 ?: ""),

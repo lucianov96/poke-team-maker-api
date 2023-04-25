@@ -7,6 +7,8 @@ import javax.validation.constraints.Pattern
 
 data class PokemonFilterRequest(
 
+    val name: String?,
+
     @field:Pattern(message = "type1 doesn't match allowed types", regexp = Type.REG_EXP, flags = [Pattern.Flag.CASE_INSENSITIVE])
     val type1: String?,
 
